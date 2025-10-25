@@ -59,7 +59,8 @@ var cookieName = 'csh-theme'
 var cookieOpts = {
   signed: false,
   expires: new Date(Date.now() + 31557600),
-  domain: '.csh.rit.edu'
+  domain: '.csh.rit.edu',
+  partitioned: true
 }
 
 // Configure session handling
@@ -79,6 +80,10 @@ app.use(function(req, res, next) {
 // Initialize Passport and restore authentication state, if any, from the session.
 app.use(passport.initialize());
 app.use(passport.session());
+
+// allow frontend to access for development
+const cors = require('cors')
+app.use(cors({origin: 'http://localhost:5173'}))
 
 // Authentication: authenticates with CSH OIDC and returns to origin point
 app.get('/login',
@@ -123,7 +128,7 @@ app.get('/api/colour', function(req, res, next){
 app.use(require('connect-ensure-login').ensureLoggedIn());
 
 // Serve the frontend
-app.use(express.static('pub'));
+app.use(express.static('frontend/dist'));
 
 // Gets the list of themes
 var themes = require("./pub/data/themes.json");

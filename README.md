@@ -48,7 +48,7 @@ use themes
 ### Issues
 As themeswitcher is hosted on GitHub, it uses GitHub's issue tracker to document issues. Please open any issues there.
 ### Adding Themes
-Themes are stored in `/pub/data/themes.json` in the style of
+Themes are stored in `/frontend/data/themes.json` in the style of
 ```json
   {
     "name": "Material",

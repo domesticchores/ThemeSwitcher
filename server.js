@@ -131,7 +131,7 @@ app.use(require('connect-ensure-login').ensureLoggedIn());
 app.use(express.static('frontend/dist'));
 
 // Gets the list of themes
-var themes = require("./frontend/src/data/themes.json");
+var themes = require("./frontend/data/themes.json");
 
 // Returnes the theme object with the given shortName
 function getTheme(shortName) {

@@ -4,6 +4,7 @@ import viteLogo from '/vite.svg'
 import './App.css'
 import Navbar from './components/NavBar'
 import Preview from './components/Preview'
+import "csh-material-bootstrap/dist/csh-material-bootstrap.css";
 
 function App() {
   const [count, setCount] = useState(0)

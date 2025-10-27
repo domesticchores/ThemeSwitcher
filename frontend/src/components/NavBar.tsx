@@ -1,10 +1,12 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Dropdown from 'react-bootstrap/Dropdown';
-import DropdownButton from 'react-bootstrap/DropdownButton';
-import themes from '../data/themes.json'
+import { Button, Collapse, Container, DropdownItem, DropdownMenu, DropdownToggle, Nav, Navbar, NavbarToggler, NavItem, NavLink, UncontrolledDropdown } from 'reactstrap';
 import { useEffect, useState } from 'react'
+import themes from '../../data/themes.json'
 
-export default function Navbar() {
+export default function NavBar() {
+    const [navbarToggle, setNavbarToggle] = useState(false); 
+
+    
     const [data, setData] = useState({uid: '', name: '', rev: ''});
     const imgStr = "https://profiles.csh.rit.edu/image/";
 
@@ -39,23 +41,35 @@ export default function Navbar() {
     }
 
     return (<>
-        <nav className="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
-        <div className="container">
-            <a className="navbar-brand" href="#">Theme Switcher</a>
-            <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
-            <span className="navbar-toggler-icon"></span>
-            </button>
-
-            <div className="collapse navbar-collapse align-center" id="navbarColor01">
-                <DropdownButton id="dropdown-menu" title="Theme">
-                    {themes.map((item) => (<Dropdown.Item href='' onClick={()=>{changeTheme(item.cdn)}}>{item.name}</Dropdown.Item>))}
-                </DropdownButton>
-
-                <div className="nav-item navbar-user text-white mt-2">
-                    <img src={imgStr.concat(data.uid)}/>{data.name}
-                </div>
-            </div>
-        </div>
-        </nav> 
+        <Navbar color="primary" dark expand="lg" className={"fixed-top"}>
+        <Container>
+          <a href="/" className={"navbar-brand"}>
+            Theme Switcher
+          </a>
+          <NavbarToggler onClick={()=>{setNavbarToggle(!navbarToggle)}} />
+          <Collapse isOpen={navbarToggle} navbar>
+            <Nav navbar>
+              <NavItem>
+                    <UncontrolledDropdown nav inNavbar>
+                        <DropdownToggle nav caret className="navbar-user">
+                            Themes
+                        </DropdownToggle>
+                        <DropdownMenu>
+                            {themes.map((item) => (<DropdownItem href='#' onClick={()=>{changeTheme(item.cdn)}}>{item.name}</DropdownItem>))}
+                        </DropdownMenu>
+                    </UncontrolledDropdown>
+              </NavItem>
+              <NavItem>
+                <NavLink>About</NavLink>
+              </NavItem>
+            </Nav>
+            <Nav navbar className="ml-auto">
+                <NavItem className="navbar-user text-white mt-2">
+                    <img src={imgStr.concat(data.uid)} aria-hidden={true} width={32} height={32}/> {data.name}
+                </NavItem>
+            </Nav>
+          </Collapse>
+        </Container>
+      </Navbar>
     </>)
 }

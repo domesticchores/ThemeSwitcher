@@ -42,23 +42,20 @@ export default function NavBar() {
 
     return (<>
         <Navbar color="primary" dark expand="lg" className={"fixed-top"}>
-        <Container>
           <a href="/" className={"navbar-brand"}>
             Theme Switcher
           </a>
           <NavbarToggler onClick={()=>{setNavbarToggle(!navbarToggle)}} />
           <Collapse isOpen={navbarToggle} navbar>
             <Nav navbar>
-              <NavItem>
-                    <UncontrolledDropdown nav inNavbar>
-                        <DropdownToggle nav caret className="navbar-user">
-                            Themes
-                        </DropdownToggle>
-                        <DropdownMenu>
-                            {themes.map((item) => (<DropdownItem href='#' onClick={()=>{changeTheme(item.cdn)}}>{item.name}</DropdownItem>))}
-                        </DropdownMenu>
-                    </UncontrolledDropdown>
-              </NavItem>
+              <UncontrolledDropdown nav inNavbar>
+                  <DropdownToggle nav caret className="navbar-user">
+                      Themes
+                  </DropdownToggle>
+                  <DropdownMenu>
+                      {themes.map((item) => (<DropdownItem href='#' key={item.name} onClick={()=>{changeTheme(item.cdn)}}>{item.name}</DropdownItem>))}
+                  </DropdownMenu>
+              </UncontrolledDropdown>
               <NavItem>
                 <NavLink>About</NavLink>
               </NavItem>
@@ -69,7 +66,6 @@ export default function NavBar() {
                 </NavItem>
             </Nav>
           </Collapse>
-        </Container>
       </Navbar>
     </>)
 }

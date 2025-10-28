@@ -2,6 +2,15 @@ ARG NODE_VERSION=20.19.4
 
 FROM node:${NODE_VERSION}-alpine
 
+WORKDIR /usr/src/app/frontend
+
+COPY frontend/package*.json ./
+RUN npm ci
+
+COPY frontend/ .
+
+RUN npm run build
+
 ENV NODE_ENV=production
 
 WORKDIR /usr/src/app

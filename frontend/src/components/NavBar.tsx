@@ -1,4 +1,3 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
 import { Collapse, Container, DropdownItem, DropdownMenu, DropdownToggle, Nav, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink, UncontrolledDropdown } from 'reactstrap';
 import { useEffect, useState } from 'react'
 import themes from '../../data/themes.json'
@@ -22,7 +21,7 @@ export default function NavBar() {
         }).catch(err => {
           console.error("Using fallback, error on fetch:",err)
           // use fallback data on error
-          setData({uid: 'test',name: 'Testing Tester',rev: ''
+          setData({uid: 'admin',name: 'Testing Tester',rev: ''
         })
         })
     }, []);
@@ -33,6 +32,12 @@ export default function NavBar() {
         link.setAttribute('rel','stylesheet');
         link.setAttribute('href','http://localhost:8081/api/get');
         document.head.appendChild(link);
+
+        link.onerror = () => {
+          console.log("error loading stylesheet, loading default")
+          link.setAttribute('href',themes[0].cdn);
+        };
+        
     }, []);
 
     function changeTheme(cdn: string) {
@@ -40,57 +45,14 @@ export default function NavBar() {
         console.log(cdn);
     }
 
-    return (<>
+    return (
+      <div>
         <Navbar color="primary" dark expand="lg" className={"fixed-top inline"}>
-          <Container className="d-lg-flex align-items-center justify-content-between">
-            <NavbarBrand href="/">Theme Switcher</NavbarBrand>
-            <NavbarToggler onClick={() => setNavbarToggle(!navbarToggle)} />
-            <Collapse isOpen={navbarToggle} navbar>
-              <Nav className="me-auto" navbar>
-                <NavItem>
-                  <UncontrolledDropdown nav inNavbar>
-                  <DropdownToggle nav caret className="navbar-user">
-                      Themes
-                  </DropdownToggle>
-                  <DropdownMenu>
-                      {themes.map((item) => (<DropdownItem href='#' key={item.name} onClick={()=>{changeTheme(item.cdn)}}>{item.name}</DropdownItem>))}
-                  </DropdownMenu>
-              </UncontrolledDropdown>
-                </NavItem>
-                <NavItem className="nav-link">About</NavItem>
-              </Nav>
-              <Nav className="ms-auto">
-                <NavItem className="navbar-user text-white mt-2 d-flex align-items-center">
-                  <img
-                    src={imgStr.concat(data.uid)}
-                    alt="profile image"
-                    width={32}
-                    height={32}
-                    className="me-2 rounded-circle"
-                  />
-                  {data.name}
-                </NavItem>
-              </Nav>
-            </Collapse>
-          </Container>
-          {/* <NavbarBrand href="/">Theme Switcher</NavbarBrand>
+        <Container className="d-lg-flex align-items-center justify-content-between">
+          <NavbarBrand href="/">Theme Switcher</NavbarBrand>
+          <NavbarToggler onClick={()=>{setNavbarToggle(!navbarToggle)}} />
           <Collapse isOpen={navbarToggle} navbar>
             <Nav navbar>
-                <NavItem>
-                  <NavLink>About</NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink>About</NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink>About</NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink>About</NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink>About</NavLink>
-                </NavItem>
               <UncontrolledDropdown nav inNavbar>
                   <DropdownToggle nav caret className="navbar-user">
                       Themes
@@ -100,16 +62,91 @@ export default function NavBar() {
                   </DropdownMenu>
               </UncontrolledDropdown>
               <NavItem>
-                <NavLink>About</NavLink>
+                <NavLink to="/" className="nav-link">
+                  About
+                </NavLink>
               </NavItem>
             </Nav>
             <Nav navbar className="ml-auto">
-                <NavItem className="navbar-user text-white mt-2">
-                    <img src={imgStr.concat(data.uid)} aria-hidden={true} width={32} height={32}/> {data.name}
-                </NavItem>
-            </Nav>
+                 <NavItem className="navbar-user text-white mt-2">
+                     <img src={imgStr.concat(data.uid)} aria-hidden={true} width={32} height={32}/> {data.name}
+                 </NavItem>
+             </Nav>
           </Collapse>
-          <NavbarToggler onClick={()=>{setNavbarToggle(!navbarToggle)}} className='ml-auto' /> */}
+        </Container>
       </Navbar>
-    </>)
+      </div>
+    )
+    // (<>
+    //     <Navbar color="primary" dark expand="lg" className={"fixed-top inline"}>
+    //       <Container className="d-lg-flex align-items-center justify-content-between">
+    //         <NavbarBrand href="/">Theme Switcher</NavbarBrand>
+    //         <NavbarToggler onClick={() => setNavbarToggle(!navbarToggle)} />
+    //         <Collapse isOpen={navbarToggle} navbar>
+    //           <Nav className="me-auto" navbar>
+    //             <NavItem>
+    //               <UncontrolledDropdown nav inNavbar>
+    //               <DropdownToggle nav caret className="navbar-user">
+    //                   Themes
+    //               </DropdownToggle>
+    //               <DropdownMenu>
+    //                   {themes.map((item) => (<DropdownItem href='#' key={item.name} onClick={()=>{changeTheme(item.cdn)}}>{item.name}</DropdownItem>))}
+    //               </DropdownMenu>
+    //           </UncontrolledDropdown>
+    //             </NavItem>
+    //             <NavItem className="nav-link">About</NavItem>
+    //           </Nav>
+    //           <Nav className="ms-auto">
+    //             <NavItem className="navbar-user text-white mt-2 d-flex align-items-center">
+    //               <img
+    //                 src={imgStr.concat(data.uid)}
+    //                 alt=""
+    //                 width={32}
+    //                 height={32}
+    //                 className="me-2 rounded-circle"
+    //               />
+    //               {data.name}
+    //             </NavItem>
+    //           </Nav>
+    //         </Collapse>
+    //       </Container>
+    //       {/* <NavbarBrand href="/">Theme Switcher</NavbarBrand>
+    //       <Collapse isOpen={navbarToggle} navbar>
+    //         <Nav navbar>
+    //             <NavItem>
+    //               <NavLink>About</NavLink>
+    //             </NavItem>
+    //             <NavItem>
+    //               <NavLink>About</NavLink>
+    //             </NavItem>
+    //             <NavItem>
+    //               <NavLink>About</NavLink>
+    //             </NavItem>
+    //             <NavItem>
+    //               <NavLink>About</NavLink>
+    //             </NavItem>
+    //             <NavItem>
+    //               <NavLink>About</NavLink>
+    //             </NavItem>
+    //           <UncontrolledDropdown nav inNavbar>
+    //               <DropdownToggle nav caret className="navbar-user">
+    //                   Themes
+    //               </DropdownToggle>
+    //               <DropdownMenu>
+    //                   {themes.map((item) => (<DropdownItem href='#' key={item.name} onClick={()=>{changeTheme(item.cdn)}}>{item.name}</DropdownItem>))}
+    //               </DropdownMenu>
+    //           </UncontrolledDropdown>
+    //           <NavItem>
+    //             <NavLink>About</NavLink>
+    //           </NavItem>
+    //         </Nav>
+    //         <Nav navbar className="ml-auto">
+    //             <NavItem className="navbar-user text-white mt-2">
+    //                 <img src={imgStr.concat(data.uid)} aria-hidden={true} width={32} height={32}/> {data.name}
+    //             </NavItem>
+    //         </Nav>
+    //       </Collapse>
+    //       <NavbarToggler onClick={()=>{setNavbarToggle(!navbarToggle)}} className='ml-auto' /> */}
+    //   </Navbar>
+    // </>)
 }

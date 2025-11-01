@@ -1,5 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Collapse, Container, DropdownItem, DropdownMenu, DropdownToggle, Nav, Navbar, NavbarToggler, NavItem, NavLink, UncontrolledDropdown } from 'reactstrap';
+import { Collapse, Container, DropdownItem, DropdownMenu, DropdownToggle, Nav, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink, UncontrolledDropdown } from 'reactstrap';
 import { useEffect, useState } from 'react'
 import themes from '../../data/themes.json'
 
@@ -41,13 +41,56 @@ export default function NavBar() {
     }
 
     return (<>
-        <Navbar color="primary" dark expand="lg" className={"fixed-top"}>
-          <a href="/" className={"navbar-brand"}>
-            Theme Switcher
-          </a>
-          <NavbarToggler onClick={()=>{setNavbarToggle(!navbarToggle)}} />
+        <Navbar color="primary" dark expand="lg" className={"fixed-top inline"}>
+          <Container className="d-lg-flex align-items-center justify-content-between">
+            <NavbarBrand href="/">Theme Switcher</NavbarBrand>
+            <NavbarToggler onClick={() => setNavbarToggle(!navbarToggle)} />
+            <Collapse isOpen={navbarToggle} navbar>
+              <Nav className="me-auto" navbar>
+                <NavItem>
+                  <UncontrolledDropdown nav inNavbar>
+                  <DropdownToggle nav caret className="navbar-user">
+                      Themes
+                  </DropdownToggle>
+                  <DropdownMenu>
+                      {themes.map((item) => (<DropdownItem href='#' key={item.name} onClick={()=>{changeTheme(item.cdn)}}>{item.name}</DropdownItem>))}
+                  </DropdownMenu>
+              </UncontrolledDropdown>
+                </NavItem>
+                <NavItem className="nav-link">About</NavItem>
+              </Nav>
+              <Nav className="ms-auto">
+                <NavItem className="navbar-user text-white mt-2 d-flex align-items-center">
+                  <img
+                    src={imgStr.concat(data.uid)}
+                    alt="profile image"
+                    width={32}
+                    height={32}
+                    className="me-2 rounded-circle"
+                  />
+                  {data.name}
+                </NavItem>
+              </Nav>
+            </Collapse>
+          </Container>
+          {/* <NavbarBrand href="/">Theme Switcher</NavbarBrand>
           <Collapse isOpen={navbarToggle} navbar>
             <Nav navbar>
+                <NavItem>
+                  <NavLink>About</NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink>About</NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink>About</NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink>About</NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink>About</NavLink>
+                </NavItem>
               <UncontrolledDropdown nav inNavbar>
                   <DropdownToggle nav caret className="navbar-user">
                       Themes
@@ -66,6 +109,7 @@ export default function NavBar() {
                 </NavItem>
             </Nav>
           </Collapse>
+          <NavbarToggler onClick={()=>{setNavbarToggle(!navbarToggle)}} className='ml-auto' /> */}
       </Navbar>
     </>)
 }
